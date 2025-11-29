@@ -1,0 +1,46 @@
+﻿@model WebApplication1.Models.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Borrar Usuario";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="fa fa-exclamation-triangle"></i> ¿Estás seguro?</h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead text-center">
+                        Estás a punto de eliminar permanentemente al siguiente usuario:
+                    </p>
+
+                    <dl class="row mt-4">
+                        <dt class="col-sm-4">Nombre:</dt>
+                        <dd class="col-sm-8 fw-bold">@Model.Nombre</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+
+                        <dt class="col-sm-4">Fecha Alta:</dt>
+                        <dd class="col-sm-8">@Model.FechaAltaFormateada</dd>
+                    </dl>
+
+                    <div class="alert alert-warning text-center mt-3">
+                        Esta acción no se puede deshacer.
+                    </div>
+
+                    <!-- El formulario envía el POST para confirmar el borrado -->
+                    <form asp-action="Delete" class="d-grid gap-2 mt-4">
+                        <!-- Input oculto con el ID es buena práctica aunque venga en la URL -->
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit" class="btn btn-danger btn-lg">Sí, Eliminar Usuario</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
