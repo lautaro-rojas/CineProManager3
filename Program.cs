@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Obtenemos la cadena de conexión de la BD del appsettings.json
+// Obtenemos la cadena de conexiï¿½n de la BD del appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Registramos el DbContext usando SQL Server
