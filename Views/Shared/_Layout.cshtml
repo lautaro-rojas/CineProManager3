@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using System.Reflection
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment Env
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CineProManager3</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -42,9 +46,33 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Obtener la versión dinámicamente -->
+            @{
+                var version = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "1.0.0";
+
+                // Lógica visual opcional: Color según el ambiente
+                string badgeClass = Env.EnvironmentName switch
+                {
+                    "Development" => "bg-success",   // Verde para Dev
+                    "Test" => "bg-info",             // Azul claro para Test
+                    "PreProd" => "bg-warning text-dark", // Amarillo para PreProd
+                    "Production" => "bg-danger",     // Rojo para Prod
+                    _ => "bg-secondary"
+                };
+            }
+
+            &copy; 2025 - CineProManager3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+            <span class="float-end">
+                <!-- Muestra el Ambiente con un color distintivo -->
+                <span class="badge @badgeClass">@Env.EnvironmentName.ToUpper()</span>
+
+                <!-- Muestra la versión real del .csproj -->
+                <small class="ms-2 text-secondary">v@(version)</small>
+            </span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

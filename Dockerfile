@@ -1,30 +1,29 @@
-# Consulte https://aka.ms/customizecontainer para aprender a personalizar su contenedor de depuración y cómo Visual Studio usa este Dockerfile para compilar sus imágenes para una depuración más rápida.
-
-# Esta fase se usa cuando se ejecuta desde VS en modo rápido (valor predeterminado para la configuración de depuración)
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-
-# Esta fase se usa para compilar el proyecto de servicio
+# 1. Usar la imagen oficial de .NET 10 SDK para compilar
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["WebApplication1.csproj", "."]
-RUN dotnet restore "./WebApplication1.csproj"
+
+# 2. Copiar el archivo de proyecto (usando el nombre REAL)
+# El asterisco *.csproj busca cualquier archivo de proyecto, así no fallará por el nombre
+COPY *.csproj ./
+RUN dotnet restore
+
+# 3. Copiar todo el resto del código
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./WebApplication1.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Esta fase se usa para publicar el proyecto de servicio que se copiará en la fase final.
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WebApplication1.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# 4. Publicar la aplicación en modo Release
+# Esto genera los archivos .dll optimizados en la carpeta /app/publish
+RUN dotnet publish -c Release -o /app/publish
 
-# Esta fase se usa en producción o cuando se ejecuta desde VS en modo normal (valor predeterminado cuando no se usa la configuración de depuración)
-FROM base AS final
+# 5. Imagen final para ejecución (Runtime)
+# Esta imagen es más ligera porque no tiene las herramientas de compilación
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+
+# 6. Configuración de puertos para Coolify
+# Coolify espera tráfico en el puerto 80 por defecto. Modifico a 8080 porque ya configuré ese puerto en Coolify.
+ENV ASPNETCORE_HTTP_PORTS=8080
+EXPOSE 8080
+
+# 7. Punto de entrada (El nombre EXACTO de tu DLL)
 ENTRYPOINT ["dotnet", "WebApplication1.dll"]
