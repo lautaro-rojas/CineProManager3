@@ -14,9 +14,9 @@ namespace WebApplication1.Data
         {
         }
 
-        // DbSet representa la tabla 'Usuarios' en la base de datos.
+        // DbSet representa la tabla 'USER' en la base de datos.
         // Entity Framework usará esto para hacer SELECT, INSERT, UPDATE, DELETE.
-        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<User> USER { get; set; }
 
         // Este método es opcional pero recomendado en arquitectura limpia.
         // Aquí configuramos reglas de la BD usando "Fluent API" si las DataAnnotations (atributos) no son suficientes.
@@ -26,7 +26,7 @@ namespace WebApplication1.Data
             base.OnModelCreating(modelBuilder);
 
             // Ejemplo: Si quisiéramos asegurar que el email sea único en la BD.
-            modelBuilder.Entity<Usuario>()
+            modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
         }

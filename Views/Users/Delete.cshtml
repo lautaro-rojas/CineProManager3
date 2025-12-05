@@ -1,4 +1,4 @@
-﻿@model WebApplication1.Models.UsuarioViewModel
+﻿@model WebApplication1.Models.UserViewModel
 
 @{
     ViewData["Title"] = "Borrar Usuario";
@@ -17,14 +17,14 @@
                     </p>
 
                     <dl class="row mt-4">
-                        <dt class="col-sm-4">Nombre:</dt>
-                        <dd class="col-sm-8 fw-bold">@Model.Nombre</dd>
+                        <dt class="col-sm-4">Name:</dt>
+                        <dd class="col-sm-8 fw-bold">@Model.Name</dd>
 
                         <dt class="col-sm-4">Email:</dt>
                         <dd class="col-sm-8">@Model.Email</dd>
 
-                        <dt class="col-sm-4">Fecha Alta:</dt>
-                        <dd class="col-sm-8">@Model.FechaAltaFormateada</dd>
+                        <dt class="col-sm-4">Date activation:</dt>
+                        <dd class="col-sm-8">@Model.DateActivationFormated</dd>
                     </dl>
 
                     <div class="alert alert-warning text-center mt-3">

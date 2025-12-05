@@ -1,14 +1,14 @@
-﻿@model IEnumerable<WebApplication1.Models.UsuarioViewModel>
+﻿@model IEnumerable<WebApplication1.Models.UserViewModel>
 
 @{
-    ViewData["Title"] = "Listado de Usuarios";
+    ViewData["Title"] = "Users list";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Listado de Usuarios</h2>
+        <h2>Users list</h2>
         <a asp-action="Create" class="btn btn-primary">
-            <i class="fa fa-plus"></i> Nuevo Usuario
+            <i class="fa fa-plus"></i> New User
         </a>
     </div>
 
@@ -16,10 +16,10 @@
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Fecha Alta</th>
-                <th>Acciones</th>
+                <th>Date Activation</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,13 +29,13 @@
                 {
                     <tr>
                         <td>@item.Id</td>
-                        <td>@item.Nombre</td>
+                        <td>@item.Name</td>
                         <td>@item.Email</td>
-                        <td>@item.FechaAltaFormateada</td>
+                        <td>@item.DateActivationFormated</td>
                         <td>
                             <!-- Botones placeholder de acciones-->
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Borrar</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
                 }
@@ -43,7 +43,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+                    <td colspan="5" class="text-center">There are no registered users.</td>
                 </tr>
             }
         </tbody>

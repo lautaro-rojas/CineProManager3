@@ -12,8 +12,8 @@ using WebApplication1.Data;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251129111758_Inicial")]
-    partial class Inicial
+    [Migration("20251205141535_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace WebApplication1.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApplication1.Entities.Usuario", b =>
+            modelBuilder.Entity("WebApplication1.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,15 +33,24 @@ namespace WebApplication1.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("ActiveAccount")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DateActivation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModification")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<DateTime>("FechaAlta")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -55,7 +64,7 @@ namespace WebApplication1.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Usuario");
+                    b.ToTable("USER");
                 });
 #pragma warning restore 612, 618
         }

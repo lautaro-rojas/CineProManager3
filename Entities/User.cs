@@ -2,32 +2,33 @@
 
 namespace WebApplication1.Entities
 {
-    public class Usuario
+    public class User
     {
         // [Key] indica que esta propiedad es la Llave Primaria (PK) en la base de datos.
         // Entity Framework suele detectarlo automáticamente si se llama "Id", pero es bueno ser explícito.
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [Required(ErrorMessage = "Name is required")]
         [MaxLength(100)] // Limitamos la longitud en BD para optimizar
-        public string Nombre { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
         [MaxLength(150)]
         public string Email { get; set; } = string.Empty;
 
-        // NOTA DE ARQUITECTO: En un entorno real, aquí guardaríamos el Hash, nunca el texto plano.
+        // NOTA DE ARQUITECTO: En un entorno real, aquí guardaríamos el Hash, nunca el texto plano. //TODO: Hashing
         // Lo manejaremos como string por ahora, pero la lógica de encriptación irá en el Service.
         [Required]
         public string Password { get; set; } = string.Empty;
 
-        public DateTime FechaAlta { get; set; } = DateTime.UtcNow;
+        public bool ActiveAccount { get; set; } = true; // Por defecto, la cuenta está activa. 1= true, 0 = false
 
-        public bool EstaActivo { get; set; } = true;
+        public DateTime DateActivation { get; set; } = DateTime.UtcNow;
 
-        public DateTime FechaBorrado { get; set; } = DateTime.UtcNow;
-        public DateTime FechaModificacion { get; set; } = DateTime.UtcNow;
+        public DateTime DateDeactivation { get; set; } = DateTime.UtcNow;
+
+        public DateTime DateModification { get; set; } = DateTime.UtcNow;
     }
 }

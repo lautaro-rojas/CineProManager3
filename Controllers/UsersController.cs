@@ -5,12 +5,12 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class UsuariosController : Controller
+    public class UsersController : Controller
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUserService _usuarioService;
 
         // Inyección de Dependencias: El constructor pide el servicio
-        public UsuariosController(IUsuarioService usuarioService)
+        public UsersController(IUserService usuarioService)
         {
             _usuarioService = usuarioService;
         }
@@ -22,12 +22,12 @@ namespace WebApplication1.Controllers
             var usuariosDto = await _usuarioService.GetAllAsync();
 
             // 2. Mapeamos DTO -> ViewModel (Manual por ahora para ser explícitos)
-            var usuariosViewModel = usuariosDto.Select(dto => new UsuarioViewModel
+            var usuariosViewModel = usuariosDto.Select(dto => new UserViewModel
             {
                 Id = dto.Id,
-                Nombre = dto.Nombre,
+                Name = dto.Name,
                 Email = dto.Email,
-                FechaAltaFormateada = dto.FechaAlta.ToShortDateString()
+                DateActivationFormated = dto.DateActivation.ToShortDateString()
             }).ToList();
 
             // 3. Enviamos el ViewModel a la vista
@@ -46,9 +46,9 @@ namespace WebApplication1.Controllers
 
             // Convertimos el DTO de lectura (UsuarioDto) al DTO de edición (UsuarioCreacionDto)
             // para que la vista pueda mostrar los datos en los inputs.
-            var modelo = new UsuarioCreacionDto
+            var modelo = new UserCreationDto
             {
-                Nombre = usuarioDto.Nombre,
+                Name = usuarioDto.Name,
                 Email = usuarioDto.Email
                 // Dejamos Password vacío para que el usuario decida si poner uno nuevo o no.
                 // (Nota: Como reutilizamos el DTO de creación, el validador pedirá contraseña obligatoria)
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
         // Este método recibe los datos del formulario y los guarda
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, UsuarioCreacionDto modelo)
+        public async Task<IActionResult> Edit(int id, UserCreationDto modelo)
         {
             // Validamos que los datos sean correctos según las reglas del DTO
             if (ModelState.IsValid)
@@ -99,7 +99,7 @@ namespace WebApplication1.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken] // Seguridad contra ataques CSRF
-        public async Task<IActionResult> Create(UsuarioCreacionDto modelo)
+        public async Task<IActionResult> Create(UserCreationDto modelo)
         {
             // El Model Binder de MVC ya mapeó el form al DTO 'modelo'
             if (ModelState.IsValid)
@@ -129,12 +129,12 @@ namespace WebApplication1.Controllers
             }
 
             // Mapeamos a ViewModel para mostrar qué usuario se va a borrar
-            var viewModel = new UsuarioViewModel
+            var viewModel = new UserViewModel
             {
                 Id = usuarioDto.Id,
-                Nombre = usuarioDto.Nombre,
+                Name = usuarioDto.Name,
                 Email = usuarioDto.Email,
-                FechaAltaFormateada = usuarioDto.FechaAlta.ToShortDateString()
+                DateActivationFormated = usuarioDto.DateActivation.ToShortDateString()
             };
 
             return View(viewModel);
