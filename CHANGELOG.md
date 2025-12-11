@@ -24,8 +24,20 @@ This section documents all changes prepared for version v0.2.X.
 
 ### Changed
 -->
+## [v1.1.0] - 2025-12-10
+This section documents all changes prepared for version v1.1.0.
 
-## [v1.0.0] - 2025-12-05
+### Added
+- **CRUD Movies**
+
+### Fixed
+
+### Changed
+- **Basic structure:** User entity fields were changed and language differences in files were corrected.
+
+### Removed
+
+## [v1.0.1] - 2025-12-05
 This section documents all changes prepared for version v1.0.1.
 
 ### Added
@@ -53,6 +65,7 @@ This section documents all changes prepared for version v1.0.0.
 ---
 
 [unreleased]: https://github.com/lautaro-rojas/CineProManager3
+[v1.1.0]: https://github.com/lautaro-rojas/CineProManager3/compare/v1.0.1...v1.1.0
 [v1.0.1]: https://github.com/lautaro-rojas/CineProManager3/compare/v1.0.0...v1.0.1
 [v1.0.0]: https://github.com/lautaro-rojas/CineProManager3/releases/v1.0.0
 
