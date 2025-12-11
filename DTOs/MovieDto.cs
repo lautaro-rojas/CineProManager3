@@ -11,6 +11,6 @@ namespace WebApplication1.DTOs
         public string Genre { get; set; } = string.Empty;
         public int Duration { get; set; }
         public string Description { get; set; } = string.Empty;
-        public byte[] Poster { get; set; } = Array.Empty<byte>();
+        public string Poster { get; set; } = string.Empty;
     }
 }

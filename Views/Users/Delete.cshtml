@@ -1,7 +1,7 @@
 ﻿@model WebApplication1.Models.UserViewModel
 
 @{
-    ViewData["Title"] = "Borrar Usuario";
+    ViewData["Title"] = "Delete User";
 }
 
 <div class="container mt-5">
@@ -9,11 +9,11 @@
         <div class="col-md-6">
             <div class="card border-danger">
                 <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0"><i class="fa fa-exclamation-triangle"></i> ¿Estás seguro?</h4>
+                    <h4 class="mb-0"><i class="fa fa-exclamation-triangle"></i>¿Are you sure?</h4>
                 </div>
                 <div class="card-body">
                     <p class="lead text-center">
-                        Estás a punto de eliminar permanentemente al siguiente usuario:
+                        You are about to permanently delete the following user:
                     </p>
 
                     <dl class="row mt-4">
@@ -28,7 +28,7 @@
                     </dl>
 
                     <div class="alert alert-warning text-center mt-3">
-                        Esta acción no se puede deshacer.
+                        This action cannot be undone.
                     </div>
 
                     <!-- El formulario envía el POST para confirmar el borrado -->
@@ -36,8 +36,8 @@
                         <!-- Input oculto con el ID es buena práctica aunque venga en la URL -->
                         <input type="hidden" asp-for="Id" />
 
-                        <button type="submit" class="btn btn-danger btn-lg">Sí, Eliminar Usuario</button>
-                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-danger btn-lg">Yes, delete user</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </div>

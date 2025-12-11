@@ -27,8 +27,8 @@ namespace WebApplication1.Mappings
                 Title = dto.Title,
                 Genre = dto.Genre,
                 Duration = dto.Duration,
-                Description = string.Empty,
-                Poster = Array.Empty<byte>()
+                Description = dto.Description,
+                Poster = dto.Poster ?? string.Empty
             };
         }
 
@@ -38,8 +38,8 @@ namespace WebApplication1.Mappings
             entity.Title = dto.Title;
             entity.Genre = dto.Genre;
             entity.Duration = dto.Duration;
-            //entity.Description = dto.Description;
-            //entity.Poster = dto.Poster;
+            entity.Description = dto.Description;
+            entity.Poster = dto.Poster ?? string.Empty;
         }
     }
 }

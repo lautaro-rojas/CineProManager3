@@ -14,6 +14,10 @@ namespace WebApplication1.DTOs
 
         [Required(ErrorMessage = "Duration is required")]
         public int Duration { get; set; }
+
+        public string Description { get; set; } = string.Empty;
+
+        public string Poster { get; set; } = string.Empty;
     }
 }
 

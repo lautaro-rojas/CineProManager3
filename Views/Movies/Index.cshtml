@@ -19,6 +19,8 @@
                 <th>Title</th>
                 <th>Genre</th>
                 <th>Duration</th>
+                <th>Description</th>
+                <th>Poster</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -32,6 +34,17 @@
                         <td>@item.Title</td>
                         <td>@item.Genre</td>
                         <td>@item.Duration</td>
+                        <td>@item.Description</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.PosterBase64))
+                            {
+                                <img src="@item.PosterBase64" alt="Poster @item.PosterBase64" class="img-fluid img-thumbnail" style="max-height:150px; max-width:150px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">No image</span>
+                            }
+                        </td>
                         <td>
                             <!-- Botones placeholder de acciones-->
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
@@ -43,7 +56,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="text-center">There are no movies.</td>
+                    <td colspan="7" class="text-center">There are no movies.</td>
                 </tr>
             }
         </tbody>

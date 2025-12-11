@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebApplication1.Models.MovieViewModel>
+
+@{
+    ViewData["Title"] = "Billboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Billboard</h2>
+        <!--
+        <a asp-action="Create" class="btn btn-primary">New Movie</a>
+        -->
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var movie in Model ?? Enumerable.Empty<WebApplication1.Models.MovieViewModel>())
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    @* Imagen: si PosterBase64 tiene prefijo "data:" lo usamos tal cual, si no lo preponemos como jpeg *@
+                    @{
+                        string? src = null;
+                        if (!string.IsNullOrEmpty(movie.PosterBase64))
+                        {
+                            src = movie.PosterBase64.StartsWith("data:") ? movie.PosterBase64 : "data:image/jpeg;base64," + movie.PosterBase64;
+                        }
+                    }
+
+                    @if (!string.IsNullOrEmpty(src))
+                    {
+                        <img src="@src" alt="Poster @movie.PosterBase64" class="card-img-top" style="object-fit:cover; height:250px;" />
+                    }
+                    else
+                    {
+                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height:250px;">
+                            <span class="text-muted">No image</span>
+                        </div>
+                    }
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-1">@movie.Title</h5>
+                        <p class="card-text text-truncate mb-2">@movie.Description</p>
+                        <div class="mb-2"><small class="text-muted">@movie.Genre • @movie.Duration min</small></div>
+
+                        <!--
+                        <div class="mt-auto d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-sm btn-danger">Delete</a>
+                            <a asp-action="Index" class="btn btn-sm btn-secondary ms-auto">Back</a>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

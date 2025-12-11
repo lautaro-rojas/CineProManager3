@@ -1,7 +1,7 @@
 ﻿@model WebApplication1.DTOs.UserCreationDto
 
 @{
-    ViewData["Title"] = "Crear Usuario";
+    ViewData["Title"] = "Create User";
 }
 
 <div class="container mt-4">
@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Registrar Nuevo Usuario</h4>
+                    <h4 class="mb-0">Register new user</h4>
                 </div>
                 <div class="card-body">
                     <form asp-action="Create" method="post">
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success">Create</button>
                             <a asp-action="Index" class="btn btn-secondary">Back to list</a>
                         </div>
                     </form>

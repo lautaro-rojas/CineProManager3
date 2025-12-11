@@ -1,0 +1,146 @@
+﻿@model WebApplication1.DTOs.MovieCreationDto
+
+@{
+    ViewData["Title"] = "Edit Movie";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">Edit Movie</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Nota: asp-route-id envía el ID en la URL al hacer post -->
+                    <form asp-action="Edit" asp-route-id="@Context.Request.RouteValues["id"]" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Genre" class="control-label"></label>
+                            <input asp-for="Genre" class="form-control" />
+                            <span asp-validation-for="Genre" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Duration" class="control-label"></label>
+                            <input asp-for="Duration" class="form-control" />
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="control-label">Poster Image</label>
+
+                            <!-- Input file para elegir otra imagen -->
+                            <input type="file" id="posterFile" class="form-control" accept="image/*" />
+
+                            <!-- Input oculto ligado a la propiedad Poster del DTO -->
+                            <input type="hidden" asp-for="Poster" id="posterBase64" />
+
+                            <!-- Previsualización: muestra la imagen actual o la seleccionada -->
+                            <div id="imagePreview" class="mt-3 text-center" style="display:none;">
+                                <img id="previewImage" src="" alt="Preview" class="img-fluid img-thumbnail" style="max-height:300px; max-width:300px;" />
+                                <div class="mt-2">
+                                    <button type="button" id="removeImage" class="btn btn-sm btn-danger">Remove image</button>
+                                </div>
+                            </div>
+
+                            <span class="text-muted d-block mt-2">If you leave this field empty, the current image will be preserved.</span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">Save changes</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const posterFile = document.getElementById('posterFile');
+            const posterBase64 = document.getElementById('posterBase64');
+            const imagePreview = document.getElementById('imagePreview');
+            const previewImage = document.getElementById('previewImage');
+            const removeImage = document.getElementById('removeImage');
+
+            // Construimos initialSrc en el servidor y lo serializamos a JSON seguro para JS
+            @* Preparar en servidor: añadir prefijo data: si hace falta, luego serializar a JSON *@
+            @{
+                    var poster = Model?.Poster ?? string.Empty;
+                    string initialSrcServer = string.Empty;
+                    if (!string.IsNullOrEmpty(poster))
+                    {
+                            initialSrcServer = poster.StartsWith("data:") ? poster : "data:image/jpeg;base64," + poster;
+                    }
+                    var initialSrcJson = System.Text.Json.JsonSerializer.Serialize(initialSrcServer);
+            }
+
+            // Emitimos la cadena ya serializada (cadena JS válida)
+            var initialSrc = @Html.Raw(initialSrcJson);
+
+            if (initialSrc) {
+                posterBase64.value = initialSrc;
+                previewImage.src = initialSrc;
+                imagePreview.style.display = 'block';
+            }
+
+            posterFile.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert('Please select a valid image file.');
+                        posterFile.value = '';
+                        return;
+                    }
+
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    if (file.size > maxSize) {
+                        alert('The image is too large. Maximum size: 5MB');
+                        posterFile.value = '';
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const base64String = event.target.result;
+                        posterBase64.value = base64String; // con prefijo data:...
+                        previewImage.src = base64String;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.onerror = function () {
+                        alert('Error reading the file. Please try again.');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            removeImage.addEventListener('click', function () {
+                posterFile.value = '';
+                posterBase64.value = '';
+                previewImage.src = '';
+                imagePreview.style.display = 'none';
+            });
+        });
+    </script>
+}

@@ -28,8 +28,8 @@ namespace WebApplication1.Controllers
                 Title = dto.Title,
                 Genre = dto.Genre,
                 Duration = dto.Duration,
-                Description = dto.Description
-                // PosterBase64 se deja vacío por ahora
+                Description = dto.Description,
+                PosterBase64 = dto.Poster
             }).ToList();
 
             // 3. Enviamos el ViewModel a la vista
@@ -52,8 +52,9 @@ namespace WebApplication1.Controllers
             {
                 Title = movieDto.Title,
                 Genre = movieDto.Genre,
-                Duration = movieDto.Duration
-                //Description = movieDto.Description
+                Duration = movieDto.Duration,
+                Description = movieDto.Description,
+                Poster = movieDto.Poster
             };
 
             return View(modelo);
@@ -136,7 +137,8 @@ namespace WebApplication1.Controllers
                 Title = movieDto.Title,
                 Genre = movieDto.Genre,
                 Duration = movieDto.Duration,
-                Description = movieDto.Description
+                Description = movieDto.Description,
+                PosterBase64 = movieDto.Poster
             };
 
             return View(viewModel);
@@ -159,6 +161,26 @@ namespace WebApplication1.Controllers
 
             // Éxito: volvemos al listado
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Billboard()
+        {
+            // 1. Obtener DTOs desde el servicio
+            var moviesDto = await _movieService.GetAllAsync();
+
+            // 2. Mapear a ViewModel (reutilizamos MovieViewModel)
+            var moviesViewModel = moviesDto.Select(dto => new MovieViewModel
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Genre = dto.Genre,
+                Duration = dto.Duration,
+                Description = dto.Description,
+                PosterBase64 = dto.Poster
+            }).ToList();
+
+            // 3. Devolver la vista Billboard con los datos
+            return View(moviesViewModel);
         }
     }
 }

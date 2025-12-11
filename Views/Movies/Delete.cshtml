@@ -1,0 +1,61 @@
+﻿@model WebApplication1.Models.MovieViewModel
+
+@{
+    ViewData["Title"] = "Delete Movie";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="fa fa-exclamation-triangle"></i>¿Are you sure?</h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead text-center">
+                        You are about to permanently delete the following movie:
+                    </p>
+
+                    <dl class="row mt-4">
+                        <dt class="col-sm-4">Title:</dt>
+                        <dd class="col-sm-8 fw-bold">@Model.Title</dd>
+
+                        <dt class="col-sm-4">Genre:</dt>
+                        <dd class="col-sm-8">@Model.Genre</dd>
+
+                        <dt class="col-sm-4">Duration:</dt>
+                        <dd class="col-sm-8">@Model.Duration</dd>
+
+                        <dt class="col-sm-4">Description:</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+
+                        <dt class="col-sm-4">Poster:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.PosterBase64))
+                            {
+                                <img src="@Model.PosterBase64" alt="Poster @Model.PosterBase64" class="img-fluid img-thumbnail" style="max-height:300px; max-width:300px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">No image</span>
+                            }
+                        </dd>
+                    </dl>
+
+                    <div class="alert alert-warning text-center mt-3">
+                        This action cannot be undone.
+                    </div>
+
+                    <!-- El formulario envía el POST para confirmar el borrado -->
+                    <form asp-action="Delete" class="d-grid gap-2 mt-4">
+                        <!-- Input oculto con el ID es buena práctica aunque venga en la URL -->
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit" class="btn btn-danger btn-lg">Yes, delete movie</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
