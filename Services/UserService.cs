@@ -40,7 +40,7 @@ namespace WebApplication1.Services
             var existeEmail = await _context.USER.AnyAsync(u => u.Email == dto.Email);
             if (existeEmail)
             {
-                throw new Exception("El email ya está registrado");
+                throw new Exception("The email is already registered");
             }
 
             // 2. Convertir DTO a Entity

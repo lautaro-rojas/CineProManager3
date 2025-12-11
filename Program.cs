@@ -16,6 +16,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+
+/*
+// Opción C: Singleton
+// Se crea una única instancia para toda la vida de la aplicación.
+// builder.Services.AddSingleton<IMovieService, MovieService>();
+ */
 
 var app = builder.Build();
 

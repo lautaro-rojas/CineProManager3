@@ -2,6 +2,7 @@
 using System.Reflection.Emit;
 using WebApplication1.Entities; // <-- Se comunica con Entities para mapear las clases a tablas
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models;
 
 namespace WebApplication1.Data
 {
@@ -17,6 +18,7 @@ namespace WebApplication1.Data
         // DbSet representa la tabla 'USER' en la base de datos.
         // Entity Framework usará esto para hacer SELECT, INSERT, UPDATE, DELETE.
         public DbSet<User> USER { get; set; }
+        public DbSet<Movie> MOVIE { get; set; }
 
         // Este método es opcional pero recomendado en arquitectura limpia.
         // Aquí configuramos reglas de la BD usando "Fluent API" si las DataAnnotations (atributos) no son suficientes.
@@ -30,5 +32,6 @@ namespace WebApplication1.Data
                 .HasIndex(u => u.Email)
                 .IsUnique();
         }
+        public DbSet<WebApplication1.Models.MovieViewModel> MovieViewModel { get; set; } = default!;
     }
 }
